@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sân Chơi Three.js</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #B0E0E6; }
+        canvas { display: block; }
+        #toggle-daynight {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #ffffff;
+            border: 2px solid #333;
+            border-radius: 8px;
+            transition: background 0.3s, color 0.3s;
+        }
+        #toggle-daynight.is-night {
+            background-color: #333;
+            color: #fff;
+            border-color: #fff;
+        }
+
+        #toggle-grid {
+            position: absolute;
+            top: 75px; /* Đặt thấp hơn nút ngày/đêm 50px */
+            left: 20px;
+            z-index: 1000;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #ffffff;
+            border: 2px solid #333;
+            border-radius: 8px;
+            transition: background 0.3s, color 0.3s;
+        }
+        #toggle-grid.is-active {
+            background-color: #ff4757; /* Chuyển màu đỏ khi bật */
+            color: #fff;
+            border-color: #fff;
+        }
+    </style>
+    
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+<body>
+    <button id="toggle-daynight">🌙 Chuyển sang Ban Đêm</button>
+    <button id="toggle-grid">🌐 Bật Lưới Tọa Độ</button>
+    <script type="module" src="./main.js"></script>
+</body>
+</html>
