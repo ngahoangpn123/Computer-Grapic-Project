@@ -190,7 +190,7 @@ function addTreeWithLights(x, z, scale) {
 addTreeWithLights(-12, 22, 2.5);  // Cây to góc trên trái
 addTreeWithLights(10, 24, 2.0);   // Cây vừa góc trên phải
 addTreeWithLights(22, 8, 1.8);    // Cây nhỏ rìa phải
-addTreeWithLights(15, -12, 3.0);  // Cây cổ thụ rìa dưới phải
+addTreeWithLights(23, -12, 3.0);  // Cây cổ thụ rìa dưới phải
 addTreeWithLights(-22, -12, 2.2); // Cây vừa rìa dưới trái
 addTreeWithLights(-8, -20, 2.6);  // Cây to gần ao vịt
 addTreeWithLights(-24, 10, 1.5);  // Cây nhỏ rìa trái
@@ -215,10 +215,15 @@ const ducks = []; // Mảng chứa các con vịt
 const lotusFlowers = []; // Mảng chứa các bông sen
 
 // Horse Rider - Blender
-const horse = createHorse();
-horse.position.set(-8, 0, 15); // Tọa độ góc dưới bên trái
-horse.rotation.y = Math.PI / 3; // Xoay ngựa ra hướng giữa sân
-scene.add(horse);
+const horse1 = createHorse();
+horse1.position.set(-8, 0, 15); // Tọa độ góc dưới bên trái
+horse1.rotation.y = Math.PI / 3; // Xoay ngựa ra hướng giữa sân
+scene.add(horse1);
+
+const horse2 = createHorse();
+horse2.position.set(-11, 0, 10); // Tọa độ góc dưới bên trái
+horse2.rotation.y = Math.PI / 3; // Xoay ngựa ra hướng giữa sân
+scene.add(horse2);
 
 // Swing - Blender
 const swing = createSwing(colors, createMaterial);
@@ -489,7 +494,10 @@ function animate() {
     
     // Gọi các animation
     animateSwing(swing, elapsedTime);
-    animateHorse(horse, elapsedTime);
+
+    animateHorse(horse1, elapsedTime);
+    animateHorse(horse2, elapsedTime);
+
     animateSeesaw(seesaw, elapsedTime);
 
     ducks.forEach((duck, index) => animateDuck(duck, time, index));

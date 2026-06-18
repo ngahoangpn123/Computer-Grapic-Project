@@ -4,8 +4,10 @@ export function animateHorse(horseGroup, time) {
     // Tìm phần 'horse' trong group (giả định dùng scene.getObjectByName hoặc cấu trúc tree)
     const horse = horseGroup.getObjectByName('horse'); 
     if (horse) {
-        horse.position.z = Math.sin(time * 3) * 0.2; // Nhún lò xo
-        horse.rotation.y = Math.sin(time * 2) * 0.05; // Lắc lư nhẹ
+        horse.rotation.x = Math.sin(time * 5) * 0.15;
+        // Lắc lư nghiêng trái phải trên mặt phẳng Oxy - Xoay quanh trục Z
+        // Tốc độ chậm hơn (time * 2.5), biên độ nhỏ (0.05)
+        horse.rotation.z = Math.sin(time * 2.5) * 0.05;
     }
 }
 
