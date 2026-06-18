@@ -6,6 +6,7 @@
 import * as THREE from 'three';
 import { DayNightController } from './animation/day_night.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 // Post Processing - Hiệu ứng hào quang (Bloom)
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
@@ -189,10 +190,10 @@ function addTreeWithLights(x, z, scale) {
 // Trồng 8 cây rải rác khắp sân, tránh xa đèn đường và các đồ chơi
 addTreeWithLights(-12, 22, 2.5);  // Cây to góc trên trái
 addTreeWithLights(10, 24, 2.0);   // Cây vừa góc trên phải
-addTreeWithLights(22, 8, 1.8);    // Cây nhỏ rìa phải
+addTreeWithLights(25, 5, 1.8);    // Cây nhỏ rìa phải
 addTreeWithLights(23, -12, 3.0);  // Cây cổ thụ rìa dưới phải
-addTreeWithLights(-22, -12, 2.2); // Cây vừa rìa dưới trái
-addTreeWithLights(-8, -20, 2.6);  // Cây to gần ao vịt
+addTreeWithLights(-25, -8, 2.2); // Cây vừa rìa dưới trái
+addTreeWithLights(-5, -23, 2.6);  // Cây to gần ao vịt
 addTreeWithLights(-24, 10, 1.5);  // Cây nhỏ rìa trái
 
 
@@ -214,6 +215,24 @@ scene.add(duckPond);
 const ducks = []; // Mảng chứa các con vịt
 const lotusFlowers = []; // Mảng chứa các bông sen
 
+// Trích xuất hoa sen từ ao nước từ DuckPond
+duckPond.traverse((child) => {
+    if (child.name && child.name.includes('lotus')) {
+        lotusFlowers.push(child); // Đẩy vào mảng 
+    }
+});
+
+// Load thêm 3 con vịt từ duck.glb
+const loader = new GLTFLoader();
+loader.load('./assets/duck.glb', (gltf) => {
+    for (let i = 0; i < 3; i++) {
+        const duck = gltf.scene.clone(); // Nhân bản thành 3 con
+        duck.scale.set(1, 1, 1); // Đổi số này nếu vịt của bạn quá to hoặc quá nhỏ
+        scene.add(duck);
+        ducks.push(duck); // Đẩy vào mảng để bơi vòng vòng
+    }
+});
+
 // Horse Rider - Blender
 const horse1 = createHorse();
 horse1.position.set(-8, 0, 15); // Tọa độ góc dưới bên trái
@@ -233,7 +252,7 @@ scene.add(swing);
 
 // Seesaw - Blender
 const seesaw = createSeesaw(colors, createMaterial);
-seesaw.position.set(20, 0, 13);
+seesaw.position.set(18, 0, 13);
 seesaw.rotation.y = Math.PI+2.5;
 scene.add(seesaw);
 
@@ -500,8 +519,8 @@ function animate() {
 
     animateSeesaw(seesaw, elapsedTime);
 
-    ducks.forEach((duck, index) => animateDuck(duck, time, index));
-    lotusFlowers.forEach(lotus => animateLotus(lotus, time));
+    ducks.forEach((duck, index) => animateDuck(duck, elapsedTime, index));
+    lotusFlowers.forEach(lotus => animateLotus(lotus, elapsedTime));
 
     // Cập nhật controls (rất quan trọng để xoay/zoom camera mượt mà)
     controls.update(); 
