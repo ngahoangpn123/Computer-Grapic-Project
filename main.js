@@ -30,9 +30,15 @@ import { createHorse } from './models/createHorse.js';
 import { createSpotlightMesh } from './models/createSpotlightMesh.js';
 import { createStringLights } from './models/createStringLights.js';
 
+//Animations 
+import { animateSwing } from './animation/swing.js';
+import { animateHorse } from './animation/horse.js';
+import { animateSeesaw } from './animation/seesaw.js';
+import { animateDuck } from './animation/duck.js';
+import { animateLotus } from './animation/lotus.js';
 
 // ======================================================
-// 2. SCENE - CAMERA - RENDERER
+// 2. SCENE - CAMERA - RENDERER - CLOCK
 // ======================================================
 
 // Scene
@@ -51,6 +57,9 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 /*Thiết lập không gian màu chuẩn sRGB cho texture và code*/
 renderer.outputColorSpace = THREE.SRGBColorSpace; 
 document.body.appendChild(renderer.domElement);
+
+// Clock
+const clock = new THREE.Clock();
 
 // OrbitControls
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -201,6 +210,9 @@ scene.add(slider);
 const duckPond = createDuckPond(colors, createMaterial);
 duckPond.position.set(1.5, -0.8, -36);
 scene.add(duckPond);
+
+const ducks = []; // Mảng chứa các con vịt
+const lotusFlowers = []; // Mảng chứa các bông sen
 
 // Horse Rider - Blender
 const horse = createHorse();
@@ -473,6 +485,16 @@ if (toggleGridBtn) {
 function animate() {
     requestAnimationFrame(animate);
     
+    const elapsedTime = clock.getElapsedTime(); // Lấy thời gian chạy
+    
+    // Gọi các animation
+    animateSwing(swing, elapsedTime);
+    animateHorse(horse, elapsedTime);
+    animateSeesaw(seesaw, elapsedTime);
+
+    ducks.forEach((duck, index) => animateDuck(duck, time, index));
+    lotusFlowers.forEach(lotus => animateLotus(lotus, time));
+
     // Cập nhật controls (rất quan trọng để xoay/zoom camera mượt mà)
     controls.update(); 
     
