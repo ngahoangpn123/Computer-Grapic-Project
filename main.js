@@ -341,13 +341,13 @@ for (let i = 0; i < lampPositions.length; i++) {
 const degToRad = (degrees) => degrees * (Math.PI / 180);
 
 // Hàm tạo đèn spotlights
-function addSpotlight(x, z, panDeg, tiltDeg, color = 0xffddaa) {
+function addSpotlight(x, y, z, panDeg, tiltDeg, color = 0xffddaa) {
     const spotData = createSpotlightMesh();
     const spotMesh = spotData.group;
     const head = spotData.head;
     
     // 8.3.1. Đặt vị trí đèn
-    spotMesh.position.set(x, 0.3, z);
+    spotMesh.position.set(x, y, z);
     
     // Chỉnh hướng vỏ đèn vật lý
     spotMesh.rotation.y = degToRad(panDeg); // Xoay trái/phải
@@ -358,7 +358,7 @@ function addSpotlight(x, z, panDeg, tiltDeg, color = 0xffddaa) {
     // 8.3.2. Khởi tạo nguồn sáng
     // (Mở rộng góc chiếu một chút để bao quát khu vui chơi)
     const spotLight = new THREE.SpotLight(color, 0, 150, degToRad(25), 0.5, 1);
-    spotLight.position.set(x, 0.6, z); // Tâm ánh sáng đặt tại đầu đèn
+    spotLight.position.set(x, y, z); // Tâm ánh sáng đặt tại đầu đèn
     
     // 8.3.3. Đồng bộ luồng sáng vào vỏ đèn bằng Vector
     const direction = new THREE.Vector3(0, 0, -1); // Trục ngắm mặc định
@@ -384,12 +384,12 @@ function addSpotlight(x, z, panDeg, tiltDeg, color = 0xffddaa) {
 // Add đèn spotlight với tham số: (Tọa độ X, Tọa độ Z, Góc Pan Trái/Phải, Góc Tilt Lên/Xuống, Màu)
 
 // Đèn 1 chiếu vào Ao Vịt:
-// Đứng ở (10, 10), xoay sang trái 45 độ, ngẩng lên 30 độ
-addSpotlight(10, 10, 45, 30, colors.pink); 
+// Đứng ở (10, 9, 22), xoay sang trái 35 độ, cúi xuống 5 độ
+addSpotlight(10, 9, 22, 35, -5, colors.pink);
 
 // Đèn 2 chiếu vào Cầu Trượt:
-// Đứng ở (-16, 5), xoay sang phải 0 độ, ngẩng lên 5 độ 
-addSpotlight(-16, 5, 0, 5, colors.pink);
+// Đứng ở (-16, 0.3, 5), xoay sang phải 0 độ, ngẩng lên 5 độ 
+addSpotlight(-16, 0.3, 5, 0, 5, colors.pink);
 
 // ======================================================
 // 9. SKY
