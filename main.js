@@ -6,7 +6,6 @@
 import * as THREE from 'three';
 import { DayNightController } from './animation/day_night.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 // Post Processing - Hiệu ứng hào quang (Bloom)
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
@@ -30,13 +29,13 @@ import { createCloud } from './models/createCloud.js';
 import { createHorse } from './models/createHorse.js';
 import { createSpotlightMesh } from './models/createSpotlightMesh.js';
 import { createStringLights } from './models/createStringLights.js';
+import { createDucks } from './models/createDuck.js';
 
 //Animations 
 import { animateSwing } from './animation/swing.js';
 import { animateHorse } from './animation/horse.js';
 import { animateSeesaw } from './animation/seesaw.js';
 import { animateDuck } from './animation/duck.js';
-import { animateLotus } from './animation/lotus.js';
 
 // ======================================================
 // 2. SCENE - CAMERA - RENDERER - CLOCK
@@ -213,25 +212,9 @@ duckPond.position.set(1.5, -0.8, -36);
 scene.add(duckPond);
 
 const ducks = []; // Mảng chứa các con vịt
-const lotusFlowers = []; // Mảng chứa các bông sen
 
-// Trích xuất hoa sen từ ao nước từ DuckPond
-duckPond.traverse((child) => {
-    if (child.name && child.name.includes('lotus')) {
-        lotusFlowers.push(child); // Đẩy vào mảng 
-    }
-});
-
-// Load thêm 3 con vịt từ duck.glb
-const loader = new GLTFLoader();
-loader.load('./assets/duck.glb', (gltf) => {
-    for (let i = 0; i < 3; i++) {
-        const duck = gltf.scene.clone(); // Nhân bản thành 3 con
-        duck.scale.set(1, 1, 1); // Đổi số này nếu vịt của bạn quá to hoặc quá nhỏ
-        scene.add(duck);
-        ducks.push(duck); // Đẩy vào mảng để bơi vòng vòng
-    }
-});
+// Gọi module tự động nạp vịt vào scene và mảng ducks
+createDucks(scene, ducks);
 
 // Horse Rider - Blender
 const horse1 = createHorse();
@@ -520,7 +503,6 @@ function animate() {
     animateSeesaw(seesaw, elapsedTime);
 
     ducks.forEach((duck, index) => animateDuck(duck, elapsedTime, index));
-    lotusFlowers.forEach(lotus => animateLotus(lotus, elapsedTime));
 
     // Cập nhật controls (rất quan trọng để xoay/zoom camera mượt mà)
     controls.update(); 
