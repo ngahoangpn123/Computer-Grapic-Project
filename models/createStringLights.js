@@ -47,8 +47,8 @@ export function createStringLights(startPoint, endPoint) {
         if (index % 3 === 0) {
             const realLight = new THREE.PointLight(color, 0, 25); 
             realLight.position.copy(point);
-            // Ghi nhớ cường độ sáng của đèn dây là 15
-            realLight.userData.nightIntensity = 15; 
+            // Ghi nhớ cường độ sáng của đèn dây là 13
+            realLight.userData.nightIntensity = 13; 
             group.add(realLight);
             lightsToExport.push(realLight);
         }

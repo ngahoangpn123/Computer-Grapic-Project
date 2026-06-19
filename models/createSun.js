@@ -8,7 +8,7 @@ export function createSun() {
     const sunMat = new THREE.MeshStandardMaterial({ 
         color: 0xffffff, 
         emissive: 0xffddaa, // Màu vàng nắng 
-        emissiveIntensity: 3 // Cường độ mạnh để tạo hào quang (Bloom)
+        /*emissiveIntensity: 3 */// Cường độ mạnh để tạo hào quang (Bloom)
     }); 
     const sun = new THREE.Mesh(sunGeo, sunMat);
     

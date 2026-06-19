@@ -8,7 +8,7 @@ export function animateDuck(duckModel, time, index) {
     
     duckModel.position.x = 0.5 + Math.cos(angle) * radius;
     duckModel.position.z = 0.2 + Math.sin(angle) * radius;
-    duckModel.position.y = 1.5; // Nhấp nhô nhẹ
+    duckModel.position.y = 1.2 + Math.sin(time * 2 + index) * 0.05; // Nhấp nhô nhẹ
     
     // Xoay đầu vịt theo hướng bơi
     duckModel.rotation.y = 3*angle;
