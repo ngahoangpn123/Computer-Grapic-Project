@@ -167,26 +167,34 @@ function addTreeWithLights(x, z, scale) {
     tree.position.set(x, 0, z);
     scene.add(tree);
 
-    // Tính toán chiều cao tương đối của tán cây dựa trên scale
+    // Tính toán chiều cao tâm tán cây
     const canopyY = 3.5 * scale; 
-    const radius = 1.5 * scale;
+    
+    // Nới bán kính 
+    const radius = (1.5 * scale) -0.3 ; 
+    
+    // Hệ số dời dây ra mặt ngoài 
+    const offset1 = radius * 0.8; 
+    const offset2 = radius * 1.2 -0.6;
 
-    // Sợi 1: Vắt chéo qua tán cây
-    const p1 = new THREE.Vector3(x - radius, canopyY, z - radius);
-    const p2 = new THREE.Vector3(x + radius, canopyY - 0.5, z + radius);
+    // Sợi 1: Vắt chéo trên mặt phẳng trước tán cây (z)
+    // Dây nghiêng từ cao (canopyY + 0.5) xuống thấp (canopyY - 0.5)
+    const p1 = new THREE.Vector3(x - radius, canopyY + 0.4, z + offset1);
+    const p2 = new THREE.Vector3(x + radius, canopyY , z + offset1);
     const str1 = createStringLights(p1, p2);
     scene.add(str1.model);
     nightLights.push(...str1.pointLights);
 
-    // Sợi 2: Vắt chéo hướng ngược lại
-    const p3 = new THREE.Vector3(x + radius, canopyY + 0.5, z - radius);
-    const p4 = new THREE.Vector3(x - radius, canopyY, z + radius);
+    // Sợi 2: Vắt chéo trên mặt phẳng sau của tán cây (-z)
+    // Vắt ngược chiều lại so với sợi 1 
+    const p3 = new THREE.Vector3(x + radius, canopyY , z - offset2);
+    const p4 = new THREE.Vector3(x - radius, canopyY  , z - offset2);
     const str2 = createStringLights(p3, p4);
     scene.add(str2.model);
     nightLights.push(...str2.pointLights);
 }
 
-// Trồng 8 cây rải rác khắp sân, tránh xa đèn đường và các đồ chơi
+// Trồng 8 cây 
 addTreeWithLights(-12, 22, 2.5);  // Cây to góc trên trái
 addTreeWithLights(10, 24, 2.0);   // Cây vừa góc trên phải
 addTreeWithLights(25, 5, 1.8);    // Cây nhỏ rìa phải
@@ -358,7 +366,7 @@ function addSpotlight(x, y, z, panDeg, tiltDeg, color = 0xffddaa) {
 
     // Link mặt kính đèn với DayNightController
     spotLight.userData.glowMaterial = spotData.glassMat;
-    spotLight.userData.nightIntensity = 250; // Độ sáng vào ban đêm
+    spotLight.userData.nightIntensity = 200; // Độ sáng vào ban đêm
 
     scene.add(spotLight);
     nightLights.push(spotLight); 
@@ -368,7 +376,11 @@ function addSpotlight(x, y, z, panDeg, tiltDeg, color = 0xffddaa) {
 
 // Đèn 1 chiếu vào Ao Vịt:
 // Đứng ở (10, 9, 22), xoay sang trái 35 độ, cúi xuống 5 độ
-addSpotlight(10, 9, 22, 35, -5, colors.pink);
+addSpotlight(10, 9, 22, 28, -8, colors.pink);
+
+// Đèn 2 chiếu vào Ao Vịt:
+// Đứng ở (10, 9, 22), xoay sang trái 35 độ, cúi xuống 5 độ
+addSpotlight(20, 13, -10, 112, -18, colors.pink);
 
 // Đèn 2 chiếu vào Cầu Trượt:
 // Đứng ở (-16, 0.3, 5), xoay sang phải 0 độ, ngẩng lên 5 độ 
